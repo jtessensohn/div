@@ -16,14 +16,14 @@ export default function Home() {
         <div>
           <img src={banner} alt='banner' />
         </div>
-        <div className='flex'>
+        {/* <div className='flex'>
           <div>
             <img src={sadFrog} alt='sadfrog' />
           </div>
           <div className=''>
             This was going to be an error page he just needs somewhere to stay
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   )
