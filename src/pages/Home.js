@@ -1,6 +1,5 @@
 import React from 'react'
 // import { StoreContext } from '../App'
-import sadFrog from '../images/sadFrog.png'
 import banner from '../images/banner.jpeg'
 
 export default function Home() {
