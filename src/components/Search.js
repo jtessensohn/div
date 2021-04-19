@@ -39,6 +39,62 @@ export default function Search() {
       })
   }
 
+
+  const getCharacterIds = useCallback(() => {
+    const memType = userData.membershipType
+    const memId = userData.membershipId
+    console.log(memId, memType)
+
+    fetch(`https://www.bungie.net/Platform/Destiny2/${memType}/Profile/${memId}?components=100`, {
+      method: 'GET',
+      headers: {
+        'x-api-key': '0e7bfa6649234f578fb0c6237ad41875'
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        // console.log(data.Response.profile.data.characterIds)
+        // setCharIds(data.Response.profile.data.characterIds)
+        if (data.Response === undefined) {
+          return <Error />
+        } else {
+          charIdDispatch({ type: 'SET_CHARID', payload: data.Response.profile.data.characterIds })
+        }
+      })
+  }, [userData.membershipId, userData.membershipType, charIdDispatch]);
+
+  const getCharacterInfo = useCallback(() => {
+    fetch(`https://www.bungie.net/Platform/Destiny2/${userData.membershipType}/Profile/${userData.membershipId}?components=200`, {
+      method: 'GET',
+      headers: {
+        'x-api-key': '0e7bfa6649234f578fb0c6237ad41875'
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.Response === undefined) {
+          return <Error />
+        } else {
+          charInfoDispatch({ type: 'SET_CHARINFO', payload: data.Response.characters.data })
+        }
+      })
+  }, [userData.membershipType, userData.membershipId, charInfoDispatch]);
+
+
+
+  useEffect(() => {
+    if (userData.membershipId && userData.membershipType) {
+      getCharacterIds();
+      getCharacterInfo();
+      // getCharacterEmblems()
+    }
+
+  }, [userData.membershipId, userData.membershipType, getCharacterIds, getCharacterInfo])
+
+  const handleChange = (e) => {
+    setText(e.target.value)
+  }
+
   // const getCharacterEmblems = useCallback(async () => {
   //   console.log('getCharacterEmblems has been called');
   //   let emblemUrlArray = [];
@@ -68,60 +124,6 @@ export default function Search() {
 
   //   setCharacterEmblemUrls(emblemUrlArray);
   // })
-
-  const getCharacterInfo = useCallback(() => {
-    fetch(`https://www.bungie.net/Platform/Destiny2/${userData.membershipType}/Profile/${userData.membershipId}?components=200`, {
-      method: 'GET',
-      headers: {
-        'x-api-key': '0e7bfa6649234f578fb0c6237ad41875'
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.Response === undefined) {
-          return <Error />
-        } else {
-          charInfoDispatch({ type: 'SET_CHARINFO', payload: data.Response.characters.data })
-        }
-      })
-  }, [userData.membershipType, userData.membershipId, charInfoDispatch]);
-
-  const getCharacterIds = useCallback(() => {
-    const memType = userData.membershipType
-    const memId = userData.membershipId
-    console.log(memId, memType)
-
-    fetch(`https://www.bungie.net/Platform/Destiny2/${memType}/Profile/${memId}?components=100`, {
-      method: 'GET',
-      headers: {
-        'x-api-key': '0e7bfa6649234f578fb0c6237ad41875'
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        // console.log(data.Response.profile.data.characterIds)
-        // setCharIds(data.Response.profile.data.characterIds)
-        if (data.Response === undefined) {
-          return <Error />
-        } else {
-          charIdDispatch({ type: 'SET_CHARID', payload: data.Response.profile.data.characterIds })
-        }
-      })
-  }, [userData.membershipId, userData.membershipType, charIdDispatch]);
-
-
-  useEffect(() => {
-    if (userData.membershipId && userData.membershipType) {
-      getCharacterIds();
-      getCharacterInfo();
-      // getCharacterEmblems()
-    }
-
-  }, [userData.membershipId, userData.membershipType, getCharacterIds, getCharacterInfo])
-
-  const handleChange = (e) => {
-    setText(e.target.value)
-  }
 
 
   return (

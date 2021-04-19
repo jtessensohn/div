@@ -30,7 +30,7 @@ export default function Char1() {
 
   return (
     <div className='flex justify-around m-2 p-2'>
-      <div className='border rounded-sm border-green-700 bg-gray-200 p-2'>
+      <div className='border rounded-sm border-green-700 bg-gray-200 shadow-md p-2'>
         <div className=' text-2xl'>PvP Stats</div>
         {characterStats === null ? ('Loading...') :
           (() => {
@@ -65,7 +65,7 @@ export default function Char1() {
           })()
         }
       </div>
-      <div className='border rounded-sm border-green-700 bg-gray-200 p-2'>
+      <div className='border rounded-sm border-green-700 bg-gray-200 shadow-md p-2'>
         <div className='flex-row text-2xl'>
           PvE Stats
           </div>
